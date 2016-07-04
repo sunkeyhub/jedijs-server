@@ -22,7 +22,7 @@ class File {
 		this.logger.info(msg);
 	}
 
-	error() {
+	error(msg) {
 		this.logger.error(msg);
 	}	
 }

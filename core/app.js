@@ -5,10 +5,7 @@
  */
 
 const express = require('express');
-const bluebird = require('bluebird');
 const fs = require('fs');
-const redis = require('redis');
-const log4js = require('log4js');
 
 const loggerConfig = require(GLB.CONS.CONFIG_PATH + '/logger');
 const dbConfig = require(GLB.CONS.CONFIG_PATH + '/db');
@@ -113,7 +110,8 @@ class App {
                         if (!exists) {
                             return res.status(404).end('Controller not exists.');
                         } else {
-                            const controller = require(controllerPath);
+                            const Controller = require(controllerPath);
+                            const controller = new Controller;
 
                             if (!_.isFunction(controller.init)) {
                                 return res.end('route init error');
@@ -162,7 +160,7 @@ class App {
                                     return afterRt;
                                 }
 
-                                return res.end();
+                                // return res.end();
 
                             }.bind(this)).catch((err) => {
                                 this.logger.error(err);
@@ -202,6 +200,8 @@ class App {
         // 初始化
         this[init]();
         this[app].listen(appConfig.port);
+
+        GLB.is_requesting = false;
 
         console.log('Server listen on ' + appConfig.port);
     }

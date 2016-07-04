@@ -70,10 +70,10 @@ class TokenController extends BaseController {
      */
     *clearCache() {
         const wxHelper = new WxHelper(wxCenter[this.wxNum].APP_ID, wxCenter[this.wxNum].APP_SECRET);
-        const result = yield co(wxHelper.clearCache);
+        const result = yield co(wxHelper.clearCache.bind(wxHelper));
 
         return this.response.json({code: 200, data: result, msg: '缓存清除成功'});
     }
 }
 
-module.exports = new TokenController();
+module.exports = TokenController;

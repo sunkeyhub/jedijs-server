@@ -26,9 +26,41 @@ class Redis {
             this.client.set(key, val, (err, data) => {
                 if (err) {
                     reject(err);
-                } 
-                this.client.expire(key, expire);
-                resolve(data);
+                } else {
+                    if (data) {
+                        this.client.expire(key, expire, (err, data) => {
+                            if (err) {
+                                reject(err);
+                            } else {
+                                resolve(data); 
+                            }
+                        });
+                    } else {
+                        resolve(data);
+                    }
+                }
+            });
+        });
+    }
+
+    setnx(key, val, expire) {
+        return new Promise((resolve, reject) => {
+            this.client.setnx(key, val, (err, data) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    if (data) {
+                        this.client.expire(key, expire, (err, data) => {
+                            if (err) {
+                                reject(err);
+                            } else {
+                                resolve(data);
+                            }
+                        });
+                    } else {
+                        resolve(data);
+                    }
+                }
             });
         });
     }
@@ -38,14 +70,23 @@ class Redis {
             this.client.get(key, (err, data) => {
                 if (err) {
                     reject(err);
+                } else {
+                    resolve(data);
                 }
-                resolve(data);
             });
         });
     }
 
-    delete(key) {
-        return this.client.expire(key, 0);
+    del(key) {
+        return new Promise((resolve, reject) => {
+            this.client.del(key, (err, data) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(data);
+                }
+            });
+        });
     }
 }
 

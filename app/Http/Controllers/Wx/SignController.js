@@ -10,9 +10,13 @@ const WxHelper = require(GLB.CONS.HELPER_PATH + '/WxHelper');
 const StringHelper = require(GLB.CONS.HELPER_PATH + '/StringHelper');
 
 class SignController extends BaseController {
-    *before() {
-        if (!this.checkWxNum()) {
-            return this.response.json({code: 400, msg: 'wx_num not exists!'});
+    before() {
+        try {
+            if (!this.checkWxNum()) {
+                return this.response.json({code: 400, msg: 'wx_num not exists!'});
+            }
+        } catch (err) {
+            console.log(err);
         }
     }
 
@@ -55,4 +59,4 @@ class SignController extends BaseController {
     }
 }
 
-module.exports = new SignController();
+module.exports = SignController;

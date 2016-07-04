@@ -15,7 +15,13 @@ module.exports = [
                 method: 'GET',
                 path: '/index',
                 route: 'IndexController@index',
-            }
+            },
+            {
+                comment: '等待',
+                method: 'GET',
+                path: '/waiting',
+                route: 'IndexController@waiting',
+            },
         ],
     },
     {

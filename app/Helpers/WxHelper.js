@@ -98,7 +98,7 @@ class WxHelper {
 		};
 
 		try {
-			var resData = yield requestPromise(requestOptions);
+			var resData = requestPromise(requestOptions);
 		} catch (err) {
 			GLB.app.logger.error(err);
 			throw err;
